@@ -157,11 +157,7 @@ nav ul li a:hover {
   margin-top: 50px;
   flex-wrap: wrap;
 }
-.page-content2 {
-  margin: 0 20%;
-  flex-wrap: wrap;
-  align-items: center;
-}
+
 body {
   background-color: rgb(245, 243, 243);
   margin: 0;
@@ -208,6 +204,11 @@ img {
   padding: 10px;
 }
 
+.page-content2 {
+  margin: 0 20%;
+  flex-wrap: wrap;
+  align-items: center;
+}
 .container2 {
   display: grid;
   grid-template-rows: repeat(7, 1fr);
@@ -215,6 +216,18 @@ img {
   height: auto;
   gap: 10px;
   padding: 10px;
+}
+
+.item2 {
+  border-radius: 10px;
+  text-align: center;
+  background-color: rgb(242, 242, 242);
+  border: 1px solid rgb(255, 255, 255);
+  padding: 1%;
+  display: flex; 
+  justify-content: center;
+  align-items: center; 
+  padding-top: 3%
 }
 
 .container3 {
@@ -226,14 +239,7 @@ img {
 
 }
 
-.item2 {
-  border-radius: 10px;
-  text-align: center;
-  background-color: rgb(242, 242, 242);
-  border: 1px solid rgb(255, 255, 255);
-  padding: 1%;
-  align-items: center;
-}
+
 .item3 {
   text-align: left;
 }
@@ -309,71 +315,51 @@ ion-icon {
 
 
 .footer {
-  display: flex;
-  flex-direction: column;
   background-color: #eeeeee;
-  height: 16.666%;
+  padding: 1% 12%;
   font-size: 18px;
-  text-align: left;
-  padding-top: 1%;
-  padding-left: 12%;
-  padding-right: 12%;
-  line-height: 1.5;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: center; /* Center all content horizontally */
+  align-items: center; /* Center all content vertically */
+  gap: 40px; /* Adjust the gap between contact info and social icons */
+  flex-wrap: nowrap;
 }
 
 .contact-info {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: nowrap;
   align-items: center;
+  gap: 50px;
 }
 
 .contact-item {
   display: flex;
   align-items: center;
-  margin-right: 20px;
-  margin-bottom: 5px;
-}
-
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap; /* Allow items to wrap to the next line */
-  margin-top: 10px;
+  gap: 20px;
+  white-space: nowrap;
 }
 
 .social-icons {
   display: flex;
-  gap: 10px;
-  justify-content: flex-end; /* Align icons to the right */
+  gap: 50px;
 }
 
-/* Additional CSS for copyright centering */
-.footer .copyright {
-  text-align: center;
-  margin: 0 auto; /* Center the copyright horizontally */
+.copyright {
+  flex: 1;
+  text-align: left; /* Align the copyright to the left */
+  white-space: nowrap;
+  font-size: 16px;
+  margin: 0;
+}
+
+ion-icon {
+  font-size: 28px;
+  color: #002e4d;
 }
 
 
-
-
-
-
-
-
-
-
-
-.glide__slide img{
-  margin-top: 3%;
-  height: 300px;
-  width: 300px;
-  object-fit: fill;
-  object-position: center;
-  border-radius: 10px;
-}
 
 .small-text{
   font-size: 20px;
@@ -751,21 +737,6 @@ ul {
   .header-right {
     margin-top: 15px;
   }
-  .glide__bullets{
-    display:none;
-  }
-  .glide__bullet {
-    display: none;
-  }
-
-  .glide__slide img{
-    margin-top: 3%;
-    height: 200px;
-    width: 200px;
-    object-fit: fill;
-    object-position: center;
-    border-radius: 10px;
-  }
 
   .sec2 h1{
    font-size: 4vw;
@@ -872,21 +843,6 @@ ul {
   }
   .header-right {
     margin-top: 15px;
-  }
-  .glide__bullets{
-    display:none;
-  }
-  .glide__bullet {
-    display: none;
-  }
-
-  .glide__slide img{
-    margin-top: 3%;
-    height: 200px;
-    width: 200px;
-    object-fit: fill;
-    object-position: center;
-    border-radius: 10px;
   }
 
   .sec2 h1{

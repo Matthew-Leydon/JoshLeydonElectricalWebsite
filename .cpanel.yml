@@ -3,14 +3,15 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home4/joshleyd/public_html/
     - /bin/cp index.html $DEPLOYPATH
+    - /bin/cp gallery.html $DEPLOYPATH
     - /bin/cp style.css $DEPLOYPATH
     - /bin/cp Logo-Normal.jpg $DEPLOYPATH
     - /bin/cp Logo-Inverted.png $DEPLOYPATH
-    - /bin/cp -R website_images $DEPLOYPATH/website_images/
     - /bin/cp kitchen.png $DEPLOYPATH
     - /bin/cp ute.png $DEPLOYPATH
     - /bin/cp review-rating.png $DEPLOYPATH
     - /bin/cp header.js $DEPLOYPATH
     - /bin/cp carousel.js $DEPLOYPATH
-    - /bin/cp gallery.html $DEPLOYPATH
     - /bin/cp hamburger_menu.js $DEPLOYPATH
+    - /bin/cp -R website_images $DEPLOYPATH
+    - /bin/cp -R webp_images $DEPLOYPATH

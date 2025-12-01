@@ -1,0 +1,40 @@
+<!-- 
+  PRELOAD LINKS FOR CRITICAL IMAGES
+  Add these links inside the <head> section of index.html
+  AFTER you've converted your images to WebP
+  Place them right after your CSS links and before </head>
+-->
+
+<!-- Preload hero background image (responsive) -->
+<link rel="preload" as="image" href="ute-mobile.webp" media="(max-width: 767px)" type="image/webp">
+<link rel="preload" as="image" href="ute-tablet.webp" media="(min-width: 768px) and (max-width: 1399px)" type="image/webp">
+<link rel="preload" as="image" href="ute-desktop.webp" media="(min-width: 1400px)" type="image/webp">
+
+<!-- Preload logo (critical for header) -->
+<link rel="preload" as="image" href="Logo-Inverted.webp" type="image/webp">
+
+<!-- Optional: Preload About Us background if it's above the fold on desktop -->
+<!-- <link rel="preload" as="image" href="kitchen-tablet.webp" media="(min-width: 768px)" type="image/webp"> -->
+
+<!-- 
+  EXAMPLE of where to place in your index.html:
+  
+  <head>
+    <title>Josh Leydon Electrical</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- CSS Links -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- ⭐ ADD PRELOAD LINKS HERE ⭐ -->
+    <link rel="preload" as="image" href="ute-mobile.webp" media="(max-width: 767px)" type="image/webp">
+    <link rel="preload" as="image" href="ute-tablet.webp" media="(min-width: 768px) and (max-width: 1399px)" type="image/webp">
+    <link rel="preload" as="image" href="ute-desktop.webp" media="(min-width: 1400px)" type="image/webp">
+    <link rel="preload" as="image" href="Logo-Inverted.webp" type="image/webp">
+    
+  </head>
+-->

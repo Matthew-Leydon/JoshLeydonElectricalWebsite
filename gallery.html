@@ -1,59 +1,484 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Josh Leydon Electrical</title>
+  <title>Gallery - Josh Leydon Electrical</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-Y4vhb7hQa4dMgKZ3qGc3CZcDkD9OM/9NNNYAahzrziROFSZmMXyYxvvzfS/1sPfgkI2QXaURJ5BVRoqB6RypNg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link href="https://www.cssscript.com/demo/sticky.css" rel="stylesheet" type="text/css">
+  
+  <!-- Preload first 6 gallery images for faster initial load -->
+  <link rel="preload" as="image" href="webp_images/gallery/1.1.webp">
+  <link rel="preload" as="image" href="webp_images/gallery/2.1.webp">
+  <link rel="preload" as="image" href="webp_images/gallery/3.1.webp">
+  <link rel="preload" as="image" href="webp_images/gallery/4.1.webp">
+  <link rel="preload" as="image" href="webp_images/gallery/5.1.webp">
+  <link rel="preload" as="image" href="webp_images/gallery/6.1.webp">
+  
+  <style>
+    .gallery-section {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 4rem) 2%;
+      background: linear-gradient(to right, #ffffff 0%, #f5f5f5 50%, #ffffff 100%);
+    }
+    
+    .gallery-section h1 {
+      font-size: clamp(26px, 4.5vw, 36px);
+      font-weight: 700;
+      color: hsl(205, 100%, 18%);
+      text-align: center;
+      margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+      letter-spacing: -0.5px;
+    }
+    
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: clamp(20px, 3vw, 30px);
+      grid-auto-flow: dense;
+    }
+    
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Varying sizes for puzzle effect */
+    .gallery-item:nth-child(6n+1) {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+    
+    .gallery-item:nth-child(8n+2) {
+      grid-column: span 2;
+    }
+    
+    .gallery-item:nth-child(9n+4) {
+      grid-row: span 2;
+    }
+    
+    .gallery-item:nth-child(12n+7) {
+      grid-column: span 2;
+    }
+    
+    /* Make data-index 24 smaller */
+    .gallery-item[data-index="24"] {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+    }
+    
+    .gallery-item:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 12px 28px rgba(0, 102, 204, 0.25);
+      z-index: 10;
+    }
+    
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+      display: block;
+    }
+    
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+    
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .lightbox.active {
+      display: flex;
+    }
+    
+    .lightbox-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .lightbox-content img {
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+    
+    .lightbox-close,
+    .lightbox-prev,
+    .lightbox-next {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 32px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10001;
+    }
+    
+    .lightbox-close:hover,
+    .lightbox-prev:hover,
+    .lightbox-next:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.1);
+    }
+    
+    .lightbox-close {
+      top: 20px;
+      right: 20px;
+    }
+    
+    .lightbox-prev {
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    
+    .lightbox-next {
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    
+    .lightbox-counter {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      backdrop-filter: blur(10px);
+    }
+    
+    @media (max-width: 1024px) {
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+      
+      .gallery-item:nth-child(6n+1) {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+    }
+    
+    @media (max-width: 767px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: clamp(12px, 2vw, 16px);
+      }
+      
+      .gallery-item:nth-child(6n+1),
+      .gallery-item:nth-child(8n+2),
+      .gallery-item:nth-child(12n+7) {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+      
+      .gallery-item:nth-child(9n+4) {
+        grid-row: span 1;
+      }
+      
+      .lightbox-prev,
+      .lightbox-next {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+      }
+      
+      .lightbox-prev { left: 10px; }
+      .lightbox-next { right: 10px; }
+      .lightbox-close { top: 10px; right: 10px; }
+    }
+  </style>
 </head>
 <body>
+  
   <header>
-    <div>
-      <nav>
-        <ul>
-          <li><img  class="header_img" src="Logo-Inverted.png" alt="Logo"></li>
-          <li><a href="/index.html">HOME</a></li>
-          <li><a href="gallery.html">GALLERY</a></li>
-          <li>CALL US 0411 174 297</li>
-        </ul>
-      </nav>
+  <div class="header-left">
+    <a style="padding-right: 2%;" href="index.html#Home"><img class="header_img" src="Logo-Inverted.png" id="Logo" alt="Josh Leydon Electrical Logo" loading="eager" decoding="async" width="75" height="75"></a>
+    <nav>
+      <ul>
+        <li><a href="index.html#Home">HOME</a></li>
+        <li><a href="index.html#Why-Us">WHY US</a></li>
+        <li><a href="index.html#Services">SERVICES</a></li>
+        <li><a href="index.html#About-Us">ABOUT US</a></li>
+        <li><a href="index.html#Testimonials">TESTIMONIALS</a></li>
+        <li><a href="gallery.html">GALLERY</a></li>
+        <li><a href="https://tradehq.com.au/joshleydonelectrical/enquire" target="_blank">CONTACT US</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="header-right">
+    <div class="header-text">
+      <div class="call-us-top-text">24 HOUR EMERGENCY SERVICE</div>
+      <div class="call-us"><a href="tel:0411174297"><ion-icon name="call" style="font-size: 16px; color: white; margin-right: 10px;"></ion-icon> 0411 174 297</a></div>
     </div>
-  </header>
-  <div class="content"></div>
-  
-  
+    <div class="sidebar_toggler">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
 
+  <aside id="sidebar">
+    <div class="sidebar_content sidebar_head">
+      <h1 style="padding-bottom: 5%;"  >JOSH LEYDON ELECTRICAL</h1>
+      <div style="padding-bottom: 5%;" class="call-us-top-text">24 HOUR EMERGENCY SERVICE</div>
+      <div class="call-us"><a href="tel:0411174297"><ion-icon name="call" style="font-size: 16px; color: white; margin-right: 10px;"></ion-icon> 0411 174 297</a></div>
+  </div>
+
+  <div class="sidebar_content sidebar_body">
+      <nav class="side_navlinks">
+          <ul>
+            <li><a href="index.html#Home">HOME</a></li>
+            <li><a href="index.html#Why-Us">WHY US</a></li>
+            <li><a href="index.html#Services">SERVICES</a></li>
+            <li><a href="index.html#About-Us">ABOUT US</a></li>
+            <li><a href="index.html#Testimonials">TESTIMONIALS</a></li>
+            <li><a href="https://tradehq.com.au/joshleydonelectrical/enquire" target="_blank">CONTACT US</a></li>
+            <li><a href="gallery.html">GALLERY</a></li>
+          </ul>
+        </nav>
+    </div>
+    <div class="sidebar_content sidebar_foot">
+
+  </div>
+    
  
+  </div>
+</header>
+
+  <section class="gallery-section">
+    <h1>Our Work Gallery</h1>
+    <div class="gallery-grid">
+      <div class="gallery-item" data-index="0">
+        <img src="webp_images/gallery/1.1.webp" alt="Electrical work example 1" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="1">
+        <img src="webp_images/gallery/2.1.webp" alt="Electrical work example 2" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="2">
+        <img src="webp_images/gallery/3.1.webp" alt="Electrical work example 3" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="3">
+        <img src="webp_images/gallery/4.1.webp" alt="Electrical work example 4" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="4">
+        <img src="webp_images/gallery/5.1.webp" alt="Electrical work example 5" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="5">
+        <img src="webp_images/gallery/6.1.webp" alt="Electrical work example 6" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="6">
+        <img src="webp_images/gallery/7.1.webp" alt="Electrical work example 7" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="7">
+        <img src="webp_images/gallery/8.1.webp" alt="Electrical work example 8" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="8">
+        <img src="webp_images/gallery/9.1.webp" alt="Electrical work example 9" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="9">
+        <img src="webp_images/gallery/10.1.webp" alt="Electrical work example 10" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="10">
+        <img src="webp_images/gallery/11.1.webp" alt="Electrical work example 11" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="11">
+        <img src="webp_images/gallery/12.1.webp" alt="Electrical work example 12" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="12">
+        <img src="webp_images/gallery/13.1.webp" alt="Electrical work example 13" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="13">
+        <img src="webp_images/gallery/14.1.webp" alt="Electrical work example 14" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="14">
+        <img src="webp_images/gallery/15.1.webp" alt="Electrical work example 15" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="15">
+        <img src="webp_images/gallery/16.1.webp" alt="Electrical work example 16" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="16">
+        <img src="webp_images/gallery/17.1.webp" alt="Electrical work example 17" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="17">
+        <img src="webp_images/gallery/18.1.webp" alt="Electrical work example 18" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="18">
+        <img src="webp_images/gallery/19.1.webp" alt="Electrical work example 19" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="19">
+        <img src="webp_images/gallery/20.1.webp" alt="Electrical work example 20" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="20">
+        <img src="webp_images/gallery/21.1.webp" alt="Electrical work example 21" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="21">
+        <img src="webp_images/gallery/22.1.3.webp" alt="Electrical work example 22" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="22">
+        <img src="webp_images/gallery/23.1.webp" alt="Electrical work example 23" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="23">
+        <img src="webp_images/gallery/24.1.webp" alt="Electrical work example 24" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="24">
+        <img src="webp_images/gallery/25.1.webp" alt="Electrical work example 25" loading="lazy">
+      </div>
+      <div class="gallery-item" data-index="25">
+        <img src="webp_images/gallery/26.1.webp" alt="Electrical work example 26" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" aria-label="Close">&times;</button>
+    <button class="lightbox-prev" aria-label="Previous">&lsaquo;</button>
+    <div class="lightbox-content">
+      <img id="lightbox-img" src="" alt="Gallery image">
+    </div>
+    <button class="lightbox-next" aria-label="Next">&rsaquo;</button>
+    <div class="lightbox-counter" id="lightbox-counter"></div>
+  </div>
+
   <footer class="footer">
-    <p class="footer">
-      <ion-icon name="call" style="font-size: 32px; margin-right: 10px;"></ion-icon>
-      0411 174 297
-    </p>
-    <p class="footer">
-      <ion-icon name="mail-open-outline" style="font-size: 32px; margin-right: 10px;"></ion-icon> 
-      admin@joshleydonelectrical.com.au
-    </p>
-    <p class="footer">
-      ABN: 49 667 518 658
-    </p>
-    <p class="footer">
-      EC: 399645C
-    </p>
-    <a href="https://www.facebook.com/profile.php?id=100093888946393">
-      <ion-icon style="font-size: 32px" name="logo-facebook"></ion-icon>
-    </a>
-    <a href="https://instagram.com/joshleydonelectrical/">
-      <ion-icon  style="font-size: 32px" name="logo-instagram"></ion-icon>
-    </a>
+    <div class="footer-content">
+      <div class="contact-info">
+        <div class="contact-item">
+          <ion-icon name="call"></ion-icon>
+          <a href="tel:0411174297">0411 174 297</a>
+        </div>
+        <div class="contact-item">
+          <ion-icon name="mail-open-outline"></ion-icon>
+          <a href="mailto:admin@joshleydonelectrical.com.au">admin@joshleydonelectrical.com.au</a>
+        </div>
+        <div class="contact-item">
+          <span>ABN: 49 667 518 658</span>
+        </div>
+        <div class="contact-item">
+          <span>EC: 399645C</span>
+        </div>
+        <p class="copyright">© Josh Leydon Electrical 2025</p>
+      </div>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/profile.php?id=100093888946393" target="_blank" rel="noopener">
+          <ion-icon name="logo-facebook"></ion-icon>
+        </a>
+        <a href="https://instagram.com/joshleydonelectrical/" target="_blank" rel="noopener">
+          <ion-icon name="logo-instagram"></ion-icon>
+        </a>
+        <a href="https://www.google.com/search?q=josh+leydon+electrical" target="_blank" rel="noopener">
+          <ion-icon name="logo-google"></ion-icon>
+        </a>
+      </div>
+    </div>
   </footer>
+
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <script src="carousel.js"></script>  
+  <script src="hamburger_menu.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  <script>
+    // Gallery Lightbox
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCounter = document.getElementById('lightbox-counter');
+    const closeBtn = document.querySelector('.lightbox-close');
+    const prevBtn = document.querySelector('.lightbox-prev');
+    const nextBtn = document.querySelector('.lightbox-next');
+    
+    let currentIndex = 0;
+    const images = Array.from(galleryItems).map(item => item.querySelector('img').src);
+    
+    function openLightbox(index) {
+      currentIndex = index;
+      lightboxImg.src = images[currentIndex];
+      lightbox.classList.add('active');
+      updateCounter();
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    function showNext() {
+      currentIndex = (currentIndex + 1) % images.length;
+      lightboxImg.src = images[currentIndex];
+      updateCounter();
+    }
+    
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      lightboxImg.src = images[currentIndex];
+      updateCounter();
+    }
+    
+    function updateCounter() {
+      lightboxCounter.textContent = `${currentIndex + 1} / ${images.length}`;
+    }
+    
+    // Event listeners
+    galleryItems.forEach((item, index) => {
+      item.addEventListener('click', () => openLightbox(index));
+    });
+    
+    closeBtn.addEventListener('click', closeLightbox);
+    nextBtn.addEventListener('click', showNext);
+    prevBtn.addEventListener('click', showPrev);
+    
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') showNext();
+      if (e.key === 'ArrowLeft') showPrev();
+    });
+  </script>
 </body>
 </html>

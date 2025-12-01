@@ -10,6 +10,9 @@ function duplicateAndFixHeader() {
   // Add the cloned header right after the original header in the DOM
   originalHeader.parentNode.insertBefore(clonedHeader, originalHeader.nextSibling);
 
+  // Initially hide the cloned header
+  clonedHeader.style.display = 'none';
+
   // Function to check scroll position and toggle the fixed header visibility
   function toggleFixedHeader() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -21,8 +24,7 @@ function duplicateAndFixHeader() {
     }
   }
 
-  // Call the toggle function on page load and scroll events
-  toggleFixedHeader();
+  // Only call toggle function on scroll events, not immediately on load
   window.addEventListener('scroll', toggleFixedHeader);
 }
 
@@ -55,6 +57,31 @@ function handleSectionScroll(event) {
   window.scrollTo({
     top: targetScrollPosition,
     behavior: 'smooth'
+  });
+}
+
+// Prevent browser's default scroll restoration
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+// Store scroll position before unload
+window.addEventListener('beforeunload', function() {
+  sessionStorage.setItem('scrollPosition', window.scrollY);
+});
+
+// Restore scroll position immediately, before DOMContentLoaded
+const scrollPosition = sessionStorage.getItem('scrollPosition');
+if (scrollPosition !== null) {
+  // Apply scroll position as soon as possible
+  document.documentElement.style.scrollBehavior = 'auto';
+  window.scrollTo(0, parseInt(scrollPosition));
+  
+  // Also restore after images load to correct any layout shifts
+  window.addEventListener('load', function() {
+    window.scrollTo(0, parseInt(scrollPosition));
+    sessionStorage.removeItem('scrollPosition');
+    document.documentElement.style.scrollBehavior = '';
   });
 }
 

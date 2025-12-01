@@ -163,7 +163,7 @@ nav ul li a:focus-visible {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  min-height: 90vh;
+  min-height: 100vh;
   background-attachment: fixed;
   overflow: hidden;
   position: relative;

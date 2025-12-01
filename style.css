@@ -357,6 +357,80 @@ nav ul li a:focus-visible {
   margin-bottom: var(--spacing-md);
   letter-spacing: -0.5px;
 }
+
+.sec3::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.4));
+  z-index: 0;
+}
+
+.page-content-sec3 {
+  border-radius: 10px;
+  padding: var(--spacing-md);
+  background-color: var(--color-overlay);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  width: 100%;
+  max-width: 950px;
+  margin: 0 auto;
+  box-shadow: var(--shadow-lg);
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+/* Section Wrappers */
+.testimonials-section {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--spacing-lg) 2%;
+  padding-bottom: var(--spacing-md);
+  background: linear-gradient(to right, #ffffff 0%, #f5f5f5 50%, #ffffff 100%);
+}
+
+.why-us-section {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--spacing-lg) 2%;
+  padding-bottom: 0;
+  background: linear-gradient(to right, #ffffff 0%, #f5f5f5 50%, #ffffff 100%);
+}
+
+.testimonials-section h1 {
+  font-size: clamp(26px, 4.5vw, 36px);
+  font-weight: 700;
+  color: var(--color-primary);
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.5px;
+}
+
+.services-section {
+  margin: 0 auto;
+  padding: var(--spacing-lg) 2%;
+  background: linear-gradient(to right, #ffffff 0%, #f5f5f5 50%, #ffffff 100%);
+}
+
+.page-content {
+  margin: 0 auto;
+  margin-top: 50px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  padding: 0 2%;
+}
+
+.page-content h1 {
+  font-size: clamp(26px, 4.5vw, 36px);
+  font-weight: 700;
+  color: var(--color-primary);
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.5px;
+}
 .page-content2 {
   margin: 0 20%;
   flex-wrap: wrap;
@@ -714,21 +788,9 @@ ion-icon {
   justify-content: center;
   align-items: center;
   gap: clamp(20px, 3vw, 40px);
-  flex-wrap: nowrap;
-  max-width: none;
-  margin: 0;
-}
-
-.contact-info {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: clamp(15px, 2.5vw, 35px);
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  flex: 0;
+  flex-wrap: wrap;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .contact-item {
@@ -764,7 +826,8 @@ ion-icon {
 }
 
 .copyright {
-  display: none;
+  margin: 0;
+  font-size: clamp(13px, 1.5vw, 16px);
 }
 
 .footer ion-icon {
@@ -1286,21 +1349,6 @@ ul {
 
   .sec2 {
     padding: var(--spacing-sm);
-  }
-  .glide__bullets{
-    display:none;
-  }
-  .glide__bullet {
-    display: none;
-  }
-
-  .glide__slide img{
-    margin-top: 3%;
-    height: 200px;
-    width: 200px;
-    object-fit: fill;
-    object-position: center;
-    border-radius: 10px;
   }
 
   .sec2 h1{

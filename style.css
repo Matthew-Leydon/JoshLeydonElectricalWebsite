@@ -1041,13 +1041,15 @@ ul {
 
 /* Update the existing media query for screens up to 1024 */
 
-@media (max-width: 1366px) {
+@media (max-width: 1441px) {
   header {
     font-size: calc(var(--font-size-small) * 0.9);
+    padding: 10px 14px;
   }
   
   .fixed-header {
-    font-size: 16px;
+    font-size: 15px;
+    padding: 10px 14px;
   }
   
   nav ul li a {

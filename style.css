@@ -570,7 +570,7 @@ img {
 }
 
 .item2 p {
-  font-size: clamp(15px, 2.2vw, 20px);
+  font-size: clamp(15px, 2.2vw, 18px);
   font-weight: 500;
   margin: 0;
   line-height: 1.5;
@@ -1041,7 +1041,24 @@ ul {
 
 /* Update the existing media query for screens up to 1024 */
 
-
+@media (max-width: 1366px) {
+  header {
+    font-size: calc(var(--font-size-small) * 0.9);
+  }
+  
+  .fixed-header {
+    font-size: 16px;
+  }
+  
+  nav ul li a {
+    padding: 9px 14px;
+    font-size: 0.9em;
+  }
+  
+  .call-us-top-text {
+    font-size: 16.2px;
+  }
+}
 
 @media (max-width: 1024px)  {
   .hero-container {

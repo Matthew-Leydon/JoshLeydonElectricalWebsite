@@ -1041,7 +1041,7 @@ ul {
 
 /* Update the existing media query for screens up to 1024 */
 
-@media (max-width: 1441px) {
+@media (max-width: 1500px) {
   header {
     font-size: calc(var(--font-size-small) * 0.9);
     padding: 10px 14px;
